@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0 auto;
   padding: 0;
-  }
+}
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
@@ -34,14 +34,6 @@ body {
   display: flex;
   gap: 1.5rem;
 }
-.nav-bar nav a {
-  color: #89b4fa;
-  font-weight: 700;
-}
-.nav-bar nav a:hover {
-  color: #89dceb;
-}
-
 
 header nav {
   display: flex;
@@ -77,7 +69,11 @@ p {
 }
 
 a {
-  color: #0066cc;
+  color: #89b4fa;
+  font-weight: 700;
+}
+a:hover {
+  color: #89dceb;
 }
 
 .blog-list {
