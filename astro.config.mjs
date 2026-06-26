@@ -5,4 +5,9 @@ export default defineConfig({
   site: 'https://khitboksy.github.io',
   base: '/blog',
   trailingSlash: 'always',
+  markdown: {
+    shikiConfig: {
+      theme: 'css-variables',
+    },
+  },
 });

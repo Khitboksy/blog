@@ -1,21 +1,48 @@
 :root {
-  --bg-body: #1e1e2e;
-  --bg-surface: #181825;
-  --bg-nav: #11111b;
-  --bg-code: #1e1e1e;
-  --accent: #cba6f7;
-  --accent-hover: #b4befe;
-  --link: #89b4fa;
-  --link-hover: #89dceb;
-  --text: #f5e0dc;
+
+  /* Palette */
+  --rosewater: #f5e0dc;
+  --flamingo: #f2cdcd;
+  --pink: #f5c2e7;
+  --mauve: #cba6f7;
+  --red: #f38ba8;
+  --maroon: #eba0ac;
+  --peach: #fab387;
+  --yellow: #f9e2af;
+  --green: #a6e3a1;
+  --teal: #94e2d5;
+  --sky: #89dceb;
+  --sapphire: #74c7ec;
+  --blue: #89b4fa;
+  --lavender: #b4befe;
+
+  --muted: #a6adc8;
+  --surface0: #313244;
+  --base: #1e1e2e;
+  --mantle: #181825;
+  --crust: #11111b;
+
+  --bg-body: var(--base);
+  --bg-nav: var(--crust);
+  --bg-code: var(--crust);
+  --bg-quote: var(--mantle);
+
+  /* Abstractions */
+  --accent: var(--mauve);
+  --accent-hover: var(--lavender);
+  --link: var(--blue);
+  --link-hover: var(--teal);
+  --text: var(--rosewater);
   --border: var(--accent);
-  
-  --text-muted: #a6adc8;
-  --date: #a6e3a1;
-  --code-text: #d4d4d4;
-  --quote-border: #cba6f7;
-  --quote-bg: #313244;
-  --quote-text: #cdd6f4;
+
+  --astro-code-background: var(--crust);
+  --astro-code-foreground: var(--rosewater);
+  --astro-code-token-comment: var(--muted);
+  --astro-code-token-constant: var(--maroon);
+  --astro-code-token-function: var(--accent);
+  --astro-code-token-keyword: var(--blue);
+  --astro-code-token-parameter: var(--red);
+  --astro-code-token-string-expression: var(--green);
 }
 
 * {
@@ -125,7 +152,7 @@ a:hover {
 .blog-item .date {
   display: block;
   font-size: 1rem;
-  color: var(--date);
+  color: var(--green);
   font-weight: bold;
   margin-top: 0.1em;
   text-align: center;
@@ -133,11 +160,15 @@ a:hover {
 
 .post-content {
   margin-top: 1rem;
+  font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code'
 }
 
 .post-content h2,
 .post-content h3 {
-  color: var(--date);
+  color: var(--green);
+}
+.post-content h4 {
+  color: var(--peach)
 }
 
 .post-content p {
@@ -146,17 +177,72 @@ a:hover {
 .post-content pre {
   text-align: left;
   font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code', monospace;
-  background: var(--bg-code);
-  color: var(--code-text);
   padding: 1rem;
   border-radius: 6px;
   overflow-x: auto;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .post-content code {
   font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code', monospace;
   font-size: 0.9rem;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-family: 'Iosevka Slab', monospace;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-nav);
+  color: var(--blue);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.post-content pre:hover .copy-btn {
+  opacity: 1;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  color: var(--teal);
+  cursor: default;
+}
+.tooltip::after {
+  content: attr(context);
+  position: fixed;
+  top: var(--tooltip-top, -9999px);
+  left: var(--tooltip-left, -9999px);
+  transform: none;
+  padding: 0.4rem 0.6rem;
+  max-width: 400px;
+  white-space: normal;
+  display: block;
+  width: fit-content;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Iosevka Slab', monospace;
+  background: var(--crust);
+  color: var(--rosewater);
+  border: 1px solid var(--mauve);
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 99999;
+}
+.tooltip:hover::after {
+  opacity: 1;
 }
 
 .post-content img {
@@ -165,12 +251,17 @@ a:hover {
 }
 
 .post-content blockquote {
-  border-left: 3px solid var(--quote-border);
-  background: var(--quote-bg);
+  border-left: 3px solid var(--mauve);
+  background: var(--bg-quote);
+  color: var(--muted);
   padding: 0.5rem 0.5rem 0.5rem 1rem;
-  color: var(--quote-text);
   margin-bottom: 1rem;
   border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+.post-content blockquote p {
+  margin-bottom: 0;
 }
 
 .post-content ul,
@@ -192,7 +283,7 @@ a:hover {
 
 .post-date {
   font-size: 1.1rem;
-  color: var(--date);
+  color: var(--green);
   font-weight: bold;
   text-align: center;
   margin-bottom: 0;
