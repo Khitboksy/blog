@@ -42,12 +42,11 @@ body {
 }
 
 .nav-bar {
-  max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
   background: var(--bg-nav);
   border: 2px solid var(--accent);
   border-radius: 8px;
-  margin-bottom: 1rem;
+  width: fit-content;
 }
 .nav-bar nav {
   padding: 0.5rem 1.5rem;
