@@ -5,6 +5,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+import '../styles/global.css';
 ---
 
 <!doctype html>
@@ -15,20 +16,23 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description ?? 'Blog'} />
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
-    <link rel="stylesheet" href="/blog/styles/global.css" />
   </head>
   <body>
-    <header>
+
+    <div class="nav-bar">
       <nav>
+        <a href="/blog/socials/">Socials</a>
+        <a href="https://github.com/Khitboksy">Github</a>
         <a href="/blog/">Home</a>
-        <a href="/blog/">Blog</a>
+        <a href="/blog/posts/">Rants</a>
+        <a href="/blog/projects/">Projects</a>
       </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; 2026</p>
-    </footer>
+    </div>
+
+    <div class="content-box">
+      <main>
+        <slot />
+      </main>
+    </div>
   </body>
 </html>
