@@ -39,6 +39,10 @@
             "type": "string"
           }
         },
+        "pinned": {
+          "type": "boolean",
+          "default": false
+        },
         "draft": {
           "type": "boolean",
           "default": false
