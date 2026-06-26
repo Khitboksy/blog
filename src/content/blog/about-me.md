@@ -9,7 +9,7 @@ tags:
 
 Hi! My name is **Taylor** and I'm **23**, but depending on how you know me
 I also go by **Khitboksy**. Or just "**Khit**" (think med-*kit*).  
-I'm unapolagentically trans, and my pronouns are she/her.  
+I'm apologetically trans, and my pronouns are she/her.  
 If you do not vibe with that, I politely ask you ***fuck off***. c:
 
 ## Who are you? Well... besides the above
