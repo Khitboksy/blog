@@ -1,0 +1,34 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description ?? 'Blog'} />
+    <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
+    <link rel="stylesheet" href="/blog/styles/global.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/blog/">Home</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>&copy; 2026</p>
+    </footer>
+  </body>
+</html>
