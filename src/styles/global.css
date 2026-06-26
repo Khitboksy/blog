@@ -193,10 +193,13 @@ a:hover {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Iosevka Slab', monospace;
   font-size: 0.8rem;
   font-weight: 800;
-  padding: 0.25rem 0.5rem;
+  padding: 0.3rem;
   background: var(--bg-nav);
   color: var(--blue);
   border: 1px solid var(--accent);
@@ -204,6 +207,10 @@ a:hover {
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.15s ease;
+  line-height: 1;
+}
+.copy-btn img {
+  display: block;
 }
 .post-content pre:hover .copy-btn {
   opacity: 1;
