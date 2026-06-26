@@ -2,6 +2,7 @@
 title: Hello, World!
 date: 2026-06-25
 description: My first blog post. This is what it's all about.
+category: rant
 tags:
   - meta
   - first-post

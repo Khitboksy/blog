@@ -1,22 +1,21 @@
 ---
-import BlogLayout from '../layouts/BlogLayout.astro';
+import BlogLayout from '../../layouts/BlogLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft && data.category === 'rant');
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BlogLayout title="Blog" description="khitboksy's blog">
-  {posts.length === 0 && <p>No posts yet. Check back soon.</p>}
+<BlogLayout title="Rants" description="khitboksy's rants">
+  <h1>Rants</h1>
+  {posts.length === 0 && <p>No rants yet. Check back soon.</p>}
   <div class="blog-list">
     {posts.map((post) => (
       <article class="blog-item">
         <a href={`/blog/${post.slug}/`} class="title">{post.data.title}</a>
         <time class="date" datetime={post.data.date.toISOString()}>
           {post.data.date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
+            year: 'numeric', month: 'long', day: 'numeric',
           })}
         </time>
       </article>

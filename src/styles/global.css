@@ -1,25 +1,54 @@
 * {
   box-sizing: border-box;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
-}
+  }
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
-  color: #1a1a1a;
-  background: #fafafa;
-  max-width: 720px;
-  margin: 0 auto;
+  line-height: 1.2;
+  color: #f5e0dc;
+  background: #1e1e2e;
   padding: 2rem 1rem;
 }
+
+.content-box {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #181825;
+  border: 3px solid #cba6f7;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.nav-bar {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #11111b;
+  border: 3px solid #cba6f7;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.nav-bar nav {
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+}
+.nav-bar nav a {
+  color: #89b4fa;
+  font-weight: 700;
+}
+.nav-bar nav a:hover {
+  color: #89dceb;
+}
+
 
 header nav {
   display: flex;
   gap: 1.5rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #d4cfc8;
 }
 
 header nav a {
@@ -51,38 +80,39 @@ a {
   color: #0066cc;
 }
 
-.post-list {
-  list-style: none;
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.post-list li {
-  margin-bottom: 1.5rem;
+.blog-item {
+  margin-block: 0.5rem;
 }
 
-.post-list .date {
-  font-size: 0.85rem;
-  color: #888;
+.blog-item .title {
   display: block;
-  margin-bottom: 0.25rem;
-}
-
-.post-list a {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #cba6f7;
   text-decoration: none;
 }
 
-.post-list a:hover {
-  text-decoration: underline;
+.blog-item .title:hover {
+  background-color: #b4befe;
 }
 
-.post-list .description {
-  color: #555;
-  margin-top: 0.25rem;
+.blog-item .date {
+  display: block;
+  font-size: 1rem;
+  color: #a6e3a1;
+  font-weight: bold;
+  margin-top: 0.1em;
 }
 
 .post-content {
   margin-top: 1rem;
+  text-align: center;
 }
 
 .post-content pre {
@@ -97,6 +127,7 @@ a {
 .post-content code {
   font-family: 'Fira Code', 'Cascadia Code', monospace;
   font-size: 0.9rem;
+  text-align: left;
 }
 
 .post-content img {
@@ -109,6 +140,7 @@ a {
   padding-left: 1rem;
   color: #555;
   margin-bottom: 1rem;
+  text-align: left;
 }
 
 footer {

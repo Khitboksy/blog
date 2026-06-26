@@ -26,6 +26,13 @@
             }
           ]
         },
+        "category": {
+          "type": "string",
+          "enum": [
+            "rant",
+            "project"
+          ]
+        },
         "tags": {
           "type": "array",
           "items": {
