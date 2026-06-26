@@ -99,7 +99,7 @@ a {
 }
 
 .blog-item .title:hover {
-  background-color: #b4befe;
+  color: #b4befe;
 }
 
 .blog-item .date {
@@ -112,7 +112,6 @@ a {
 
 .post-content {
   margin-top: 1rem;
-  text-align: center;
 }
 
 .post-content pre {
