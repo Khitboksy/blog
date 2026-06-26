@@ -1,24 +1,23 @@
 ---
 title: Hello, World!
-date: 2026-06-25
+date: 2026-06-26
 description: My first blog post. This is what it's all about.
 tags:
   - meta
   - first-post
 ---
 
-Welcome to my blog! This is the first post.
+Welcome to my blog! I'm Taylor (she/her), and this is gonna be a weird mess of
+me screaming into the void.
 
 ## What's This About?
 
-  This is a minimal Astro blog, deployed to GitHub Pages, automated with Github-Actions!
-
-In this blog, ill talk about things ranging from left wing politics, to general tech shenanigans.
+Assuming you stick around, ill talk about things ranging from left wing politics, to general tech shenanigans.
 
 ### Why are you doing this?
 
-  I've been seeing some friends of mine talk about, and post their blogs.
-  This has made me want to start my own, where i talk about anything from politics,
+I've been seeing some friends of mine talk about, and post their blogs.
+This has made me want to start my own, where i talk about anything from politics,
 to my hatred of windows, and even [projects](https://khitboksy.github.io/blog/projects/) i am proud of and feel like sharing!
 
 ### How often will you post?

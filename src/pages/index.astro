@@ -3,7 +3,11 @@ import BlogLayout from '../layouts/BlogLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
-posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+posts.sort((a, b) => {
+  if (a.data.pinned && !b.data.pinned) return -1;
+  if (!a.data.pinned && b.data.pinned) return 1;
+  return b.data.date.getTime() - a.data.date.getTime();
+});
 ---
 
 <BlogLayout title="Blog" description="khitboksy's blog">
