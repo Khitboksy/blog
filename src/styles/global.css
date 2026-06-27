@@ -45,6 +45,79 @@
   --astro-code-token-string-expression: var(--green);
 }
 
+@font-face {
+  font-family: 'Iosev-Slab';
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iosev-Slab';
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iosev-Slab';
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iosev-Slab';
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Iosev-Slab';
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldOblique.woff2') format('woff2');
+  font-weight: 700;
+  font-style: oblique;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Iosev-Term";
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iosev-Term";
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iosev-Term";
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iosev-Term";
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Iosev-Term";
+  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldOblique.woff2') format('woff2');
+  font-weight: 700;
+  font-style: oblique;
+  font-display: swap;
+}
+
+
 * {
   box-sizing: border-box;
   margin: 0 auto;
@@ -52,7 +125,7 @@
 }
 
 body {
-  font-family: 'Iosevka Slab', system-ui, -apple-system, sans-serif;
+  font-family: 'Iosev-Slab';
   line-height: 1.5;
   color: var(--text);
   background: var(--bg-body);
@@ -160,7 +233,6 @@ a:hover {
 
 .post-content {
   margin-top: 1rem;
-  font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code'
 }
 
 .post-content h2,
@@ -176,7 +248,7 @@ a:hover {
 
 .post-content pre {
   text-align: left;
-  font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code', monospace;
+  font-family: 'Iosev-Slab';
   padding: 1rem;
   border-radius: 6px;
   overflow-x: auto;
@@ -185,7 +257,7 @@ a:hover {
 }
 
 .post-content code {
-  font-family: 'Iosevka Slab', 'Fira Code', 'Cascadia Code', monospace;
+  font-family: 'Iosev-Term';
   font-size: 0.9rem;
 }
 
@@ -196,7 +268,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Iosevka Slab', monospace;
+  font-family: 'Iosev-Slab';
   font-size: 0.8rem;
   font-weight: 800;
   padding: 0.3rem;
@@ -238,7 +310,7 @@ a:hover {
   font-size: 0.85rem;
   font-style: normal;
   font-weight: normal;
-  font-family: 'Iosevka Slab', monospace;
+  font-family: 'Iosev-Slab';
   background: var(--crust);
   color: var(--rosewater);
   border: 1px solid var(--mauve);
