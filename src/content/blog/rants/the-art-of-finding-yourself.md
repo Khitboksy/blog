@@ -137,7 +137,7 @@ happy, it means theyve decided theyre going to kill themselves. They put up wall
 
 "Please dont" you think to yourself every morning when you wake up, hoping she answers your texts.
 Until one day, she breaks the news to you. "Im trans, its she/her now" she says.
-That.. that rocked you to the core. the day before you were arguing trans politics with
+That.. that rocked you to the core. Yesterday you were arguing trans politics with
 your conservative friends, calling them creeps, and mentally ill. Today, your best friend
 is telling you theyre in that group.
 
@@ -145,7 +145,7 @@ You dont wanna lose your best friend, so you start challenging biases. You start
 questions, and doing research. Many answers often either opened more questions, or left you
 questioning your own life experiences. Some questions you didnt like the answer to.
 
-Some questions... you related to the answer... and that made you feel comfortable.
+Some questions... you related to the answer a little too much... and that made you feel comfortable.
 
 ## Im trans too.
 After a few weeks of back and fourth, you asked your friend for her resources. You felt
@@ -170,11 +170,17 @@ You are the same person, with the same friends, same job, same life, but the opp
 own words. you hadnt even thought about it, yet had an answer so confident.
 
 You tell your friend. You tell your girlfriend. They both love you. Theyre tied for #1 supporters.
-You pick out a name, and it works. You decide on pronouns, and style.
+<span class = "tooltip" context = "technically, you already had the name given to you years before,
+  so the name was fine from the start">
+You pick out a name
+</span>, and it works. You decide on pronouns, and style.
 
 This is it. The moment you never got. **Your** moment. The moment *you* finally take control
-over your life. The day the real you was born. That moment, when your girlfriend called
-you your name, and said she/her. How naturally it came out of her mouth. How surreal it
+over your life. The day the real you was born. That moment when your girlfriend called
+you your name
+<span class = "tooltip" context = "in the context of it being a womans name, instead of a mans name.">
+for the first time
+</span>, and said the right pronouns. How naturally it all came out of her mouth. How surreal it
 felt. Almost instantly youre hit with euphoria.
 
 ## The process
@@ -189,7 +195,7 @@ changed anything other than your name. So you change your vocabulary. Start usin
 instead of '(:', saying stuff like 'oki' instead of 'okay'. You strip male centric
 pronouns form your vocabulary like 'dude', 'bro', 'guys'. Still doesnt feel right.
 You buy new clothes, new makeup. You find a style. You dye your hair a crazy colour.
-Yove been on HRT for 1 year at this point, and you noticed youre able to remember
+Youve been on HRT for 1 year at this point, and you noticed youre able to remember
 the person in the mirror! Slowly but surely, that blurry face with a mustache, is turning
 into a beautiful young lady reliving the childhood she never got.
 
@@ -286,10 +292,12 @@ when you dont feel okay. Reach out before you do something stupid to yourself.
 Reach out to your friends. Ask if theyre okay. See how theyre doing. Remind them
 youre a safespace. Open the walls to their problems. Dont let the time go by.
 
+> To my wonderful girlfriend, Ryn -- I love you, and im sorry >.< <3
 
 > This post is dedicated to Zoey. The girl who gave me my life. The girl who
 > single handedly taught me how to be a better person, for *myself*.
 
 > This post is also dedicated to those who may still be soul searching. By no means
 > is this a guide, or whatever. I just hope that whoever reads this, finds solace in
-> story. That someone out there realizes who they are.
+> story. That someone out there realizes who they are, before its too late.
+
