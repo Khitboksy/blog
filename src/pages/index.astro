@@ -8,14 +8,39 @@ posts.sort((a, b) => {
   if (!a.data.pinned && b.data.pinned) return 1;
   return b.data.date.getTime() - a.data.date.getTime();
 });
+
+const pinned = posts.filter((p) => p.data.pinned);
+const unpinned = posts.filter((p) => !p.data.pinned);
 ---
 
 <BlogLayout title="Taylor Towers" description="Taylor's 'Safe-Space'">
   {posts.length === 0 && <p>No posts yet. Check back soon.</p>}
   <div class="blog-list">
-    {posts.map((post) => (
+    {pinned.map((post) => (
       <article class="blog-item">
-        <a href={`/blog/${post.slug}/`} class="title">{post.data.title}</a>
+        <div class="blog-item-title">
+          {post.data.pinned && (
+            <svg class="pin-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z"/>
+            </svg>
+          )}
+          <a href={`/blog/${post.slug}/`} class="title">{post.data.title}</a>
+        </div>
+        <time class="date" datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+      </article>
+    ))}
+    {pinned.length > 0 && unpinned.length > 0 && <hr class="pin-divider" />}
+    {unpinned.map((post) => (
+      <article class="blog-item">
+        <div class="blog-item-title">
+          <a href={`/blog/${post.slug}/`} class="title">{post.data.title}</a>
+        </div>
         <time class="date" datetime={post.data.date.toISOString()}>
           {post.data.date.toLocaleDateString('en-US', {
             year: 'numeric',
