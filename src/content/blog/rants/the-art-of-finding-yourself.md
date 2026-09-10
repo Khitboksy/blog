@@ -1,6 +1,6 @@
 ---
 title: The Art of Finding Yourself
-date: 2026-10-09
+date: 2026-09-10
 pinned: false
 description: Feeling lost? I did to.
 category: rant
