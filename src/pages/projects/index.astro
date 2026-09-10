@@ -6,7 +6,7 @@ const posts = await getCollection('blog', ({ data }) => !data.draft && data.cate
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BlogLayout title="Projects" description="khitboksy's projects">
+<BlogLayout title="Projects" description="taylor's projects">
   <h1>Projects</h1>
   {posts.length === 0 && <p>No projects yet. Check back soon.</p>}
   <div class="blog-list">

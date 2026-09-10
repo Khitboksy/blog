@@ -26,6 +26,7 @@
   --bg-nav: var(--crust);
   --bg-code: var(--crust);
   --bg-quote: var(--mantle);
+  --bg-surface: var(--surface0);
 
   /* Abstractions */
   --accent: var(--mauve);
@@ -128,14 +129,15 @@ body {
   font-family: 'Iosev-Slab';
   line-height: 1.5;
   color: var(--text);
-  background: var(--bg-body);
+  background: var(--bg-mantle);
+  min-height: 100vh;
   padding: 2rem 1rem;
 }
 
 .content-box {
   max-width: 720px;
   margin: 0 auto;
-  background: var(--bg-surface);
+  background: var(--bg-body);
   border: 3px solid var(--accent);
   border-radius: 8px;
   padding: 1.5rem;
