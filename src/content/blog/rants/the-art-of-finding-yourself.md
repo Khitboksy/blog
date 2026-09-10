@@ -2,7 +2,7 @@
 title: The Art of Finding Yourself
 date: 2026-09-10
 pinned: false
-description: Feeling lost? I did to.
+description: Feeling lost? I did too.
 category: rant
 tags:
   - rant
