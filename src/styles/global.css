@@ -27,6 +27,7 @@
   --bg-code: var(--crust);
   --bg-quote: var(--mantle);
   --bg-surface: var(--surface0);
+  --bg-mantle: var(--mantle);
 
   /* Abstractions */
   --accent: var(--mauve);
