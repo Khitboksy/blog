@@ -3,8 +3,10 @@ title: The Art of Finding Yourself
 date: 2026-10-09
 pinned: false
 description: Feeling lost? I did to.
+category: rant
 tags:
   - rant
+  - meta
 ---
 
 #### CW: Suicidal Ideation, Self Harm, General Dysphoria.
