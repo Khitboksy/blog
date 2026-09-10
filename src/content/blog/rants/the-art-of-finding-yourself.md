@@ -292,8 +292,6 @@ when you dont feel okay. Reach out before you do something stupid to yourself.
 Reach out to your friends. Ask if theyre okay. See how theyre doing. Remind them
 youre a safespace. Open the walls to their problems. Dont let the time go by.
 
-> To my wonderful girlfriend, Ryn -- I love you, and im sorry >.< <3
-
 
 
 
