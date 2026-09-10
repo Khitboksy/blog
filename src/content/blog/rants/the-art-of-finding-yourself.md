@@ -116,9 +116,9 @@ That Funny Feeling instantly became your favourite song of the year. You felt th
 ## A spiral into madness
 
 You felt disolusioned by the current political climate. You prefer republicans over democrats.
-Youre pro life, not pro choice. you define women by their ovaries and their chromosomes. There
+Youre pro life, not pro choice. You define women by their ovaries and their chromosomes. There
 were some things you didnt agree with. Like, you think gay people are okay. They just wanna
-love ho they wanna love. You think immigration is important to maintain. Meanwhile, you also
+love who they wanna love. You think immigration is important to maintain. Meanwhile, you also
 believe private property is theft. Youre conflicted. You drown yourself in Ben Shapiro debates,
 and call people slurs online, because in that circle your words have power. People relate to you.
 You may be quirky, but at least youre not a democrat.
@@ -174,7 +174,7 @@ You pick out a name, and it works. You decide on pronouns, and style.
 
 This is it. The moment you never got. **Your** moment. The moment *you* finally take control
 over your life. The day the real you was born. That moment, when your girlfriend called
-you your name, and said she/her. Now naturally it came out of her mouth. How surreal it
+you your name, and said she/her. How naturally it came out of her mouth. How surreal it
 felt. Almost instantly youre hit with euphoria.
 
 ## The process
@@ -185,7 +185,7 @@ dont make bigoted jokes about it. Friends you can relate to!
 
 Something still feels off. Youre happy, but you dont feel like you. You feel
 like an imposter. Like someone living someone elses life. You feel like you havent
-changes anything other than your name. So you change your vocabulary. Start using 'c:'
+changed anything other than your name. So you change your vocabulary. Start using 'c:'
 instead of '(:', saying stuff like 'oki' instead of 'okay'. You strip male centric
 pronouns form your vocabulary like 'dude', 'bro', 'guys'. Still doesnt feel right.
 You buy new clothes, new makeup. You find a style. You dye your hair a crazy colour.
@@ -201,7 +201,7 @@ bullshit. Youre on your way to the bus stop. You dont know where youre going. In
 panic, you call the only girl you know your girlfriend wont freak out over you living with,
 and she lets you in. You move in with her, and all is good, with a few strings.
 
-You didnt battle all ur biases. To you, furries are zoophilic creeps who get off
+You didnt battle all your biases. To you, furries are zoophilic creeps who get off
 to having sex in animal costumes. And you just moved in with an open furry, who
 does furry art. Youre trans, and you like talking about it, so you share! You spill
 your story for her. You tell her everything. You even make jokes about her being trans,
@@ -245,9 +245,9 @@ incomplete, now has mouse ears. The body you hated, now has boobs and a tail. Th
 actions that caused people to call you a furry, are now standard behaviour.
 
 ## The Now Now
-Today, you live the best life you can. You take you medications, you
+Today, you live the best life you can. You take your medications, you
 take care of your health. You go to the gym. Youre surrounded by fever-dream
-level friends that accept you are unapologetically. You walked into starbucks
+level friends that accept who you are unapologetically. You walked into starbucks
 and the girl behind the counter already has your drink made for you. Youre
 walking through the ladies section at walmart, and arent uncomfortable. You
 get cat called by men when youre walking home from work. You feel lowk threatened
