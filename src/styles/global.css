@@ -1,5 +1,4 @@
 :root {
-
   /* Palette */
   --rosewater: #f5e0dc;
   --flamingo: #f2cdcd;
@@ -48,36 +47,41 @@
 }
 
 @font-face {
-  font-family: 'Iosev-Slab';
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Regular.woff2') format('woff2');
+  font-family: "Iosev-Slab";
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Regular.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Iosev-Slab';
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Italic.woff2') format('woff2');
+  font-family: "Iosev-Slab";
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Italic.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Iosev-Slab';
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Bold.woff2') format('woff2');
+  font-family: "Iosev-Slab";
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-Bold.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Iosev-Slab';
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldItalic.woff2') format('woff2');
+  font-family: "Iosev-Slab";
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldItalic.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Iosev-Slab';
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldOblique.woff2') format('woff2');
+  font-family: "Iosev-Slab";
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaSlab-BoldOblique.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: oblique;
   font-display: swap;
@@ -85,40 +89,44 @@
 
 @font-face {
   font-family: "Iosev-Term";
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Regular.woff2') format('woff2');
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Regular.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Iosev-Term";
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Italic.woff2') format('woff2');
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Italic.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: "Iosev-Term";
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Bold.woff2') format('woff2');
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-Bold.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Iosev-Term";
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldItalic.woff2') format('woff2');
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldItalic.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: "Iosev-Term";
-  src: url('/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldOblique.woff2') format('woff2');
+  src: url("/blog/fonts/iosevka-slab/WOFF2/IosevkaTermSlab-BoldOblique.woff2")
+    format("woff2");
   font-weight: 700;
   font-style: oblique;
   font-display: swap;
 }
-
 
 * {
   box-sizing: border-box;
@@ -127,7 +135,7 @@
 }
 
 body {
-  font-family: 'Iosev-Slab';
+  font-family: "Iosev-Slab";
   line-height: 1.5;
   color: var(--text);
   background: var(--bg-mantle);
@@ -142,6 +150,65 @@ body {
   border: 3px solid var(--accent);
   border-radius: 8px;
   padding: 1.5rem;
+}
+
+.top-pill {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg-nav);
+  padding: 0.4rem 3rem;
+  margin-bottom: 1rem;
+  width: fit-content;
+  gap: 2rem;
+}
+
+.top-pill-btn {
+  font-family: "Iosev-Slab";
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  text-align: center;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.top-pill-btn:hover {
+  color: var(--link-hover);
+  background: var(--bg-mantle);
+}
+
+.top-pill-label {
+  font-weight: bold;
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.top-pill-title {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-pill-rss-btn {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--lavender);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-bar {
@@ -215,6 +282,7 @@ a:hover {
 
 .blog-item-title {
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
@@ -264,7 +332,7 @@ a:hover {
   color: var(--green);
 }
 .post-content h4 {
-  color: var(--peach)
+  color: var(--peach);
 }
 
 .post-content p {
@@ -272,7 +340,7 @@ a:hover {
 
 .post-content pre {
   text-align: left;
-  font-family: 'Iosev-Slab';
+  font-family: "Iosev-Slab";
   padding: 1rem;
   border-radius: 6px;
   overflow-x: auto;
@@ -281,7 +349,7 @@ a:hover {
 }
 
 .post-content code {
-  font-family: 'Iosev-Term';
+  font-family: "Iosev-Term";
   font-size: 0.9rem;
 }
 
@@ -292,7 +360,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Iosev-Slab';
+  font-family: "Iosev-Slab";
   font-size: 0.8rem;
   font-weight: 800;
   padding: 0.3rem;
@@ -334,7 +402,7 @@ a:hover {
   font-size: 0.85rem;
   font-style: normal;
   font-weight: normal;
-  font-family: 'Iosev-Slab';
+  font-family: "Iosev-Slab";
   background: var(--crust);
   color: var(--rosewater);
   border: 1px solid var(--mauve);

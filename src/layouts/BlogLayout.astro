@@ -6,6 +6,7 @@ export interface Props {
 
 const { title, description } = Astro.props;
 import '../styles/global.css';
+import TopBar from '../components/TopBar.astro';
 ---
 
 <!doctype html>
@@ -16,6 +17,7 @@ import '../styles/global.css';
     <title>{title}</title>
     <meta name="description" content={description ?? 'Blog'} />
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Taylor Towers RSS" href="/blog/rss.xml" />
   </head>
   <body>
 
@@ -44,6 +46,7 @@ import '../styles/global.css';
     </div>
 
     <div class="content-box">
+      <TopBar />
       <main>
         <slot />
       </main>

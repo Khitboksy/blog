@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const recentProject = posts.find((p) => p.data.category === 'project') ?? null;
+const recentRant = posts.find((p) => p.data.category === 'rant') ?? null;
+---
+
+<div class="top-pill">
+  <button
+    class="top-pill-btn"
+    onclick={`window.location.href='${recentProject ? `/blog/${recentProject.slug}/` : '/blog/projects/'}'`}
+  >
+    <span class="top-pill-label">Recent Project</span>
+    <span class="top-pill-title">{recentProject ? recentProject.data.title : 'None'}</span>
+  </button>
+  <button
+    class="top-pill-btn top-pill-rss-btn"
+    onclick="window.location.href='/blog/rss.xml'"
+  >
+    RSS FEED
+  </button>
+  <button
+    class="top-pill-btn"
+    onclick={`window.location.href='${recentRant ? `/blog/${recentRant.slug}/` : '/blog/rants/'}'`}
+  >
+    <span class="top-pill-label">Recent Rant</span>
+    <span class="top-pill-title">{recentRant ? recentRant.data.title : 'None'}</span>
+  </button>
+</div>
