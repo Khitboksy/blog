@@ -159,10 +159,11 @@ body {
   border: 2px solid var(--accent);
   border-radius: 8px;
   background: var(--bg-nav);
-  padding: 0.4rem 3rem;
+  padding: 0.4rem 1.5rem;
   margin-bottom: 1rem;
+  gap: 1.5rem;
   width: fit-content;
-  gap: 2rem;
+  max-width: 100%;
 }
 
 .top-pill-btn {
@@ -174,10 +175,12 @@ body {
   text-align: center;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  min-width: 0;
+  width: 11rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 .top-pill-btn:hover {
   color: var(--link-hover);
@@ -197,8 +200,6 @@ body {
   display: block;
   font-size: 0.7rem;
   color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -239,9 +240,23 @@ body {
   flex-shrink: 0;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
   .nav-icon:not(.always-show) {
     display: none;
+  }
+
+  .top-pill .top-pill-btn:not(.top-pill-rss-btn) {
+    display: none;
+  }
+
+  .top-pill {
+    justify-content: center;
+    padding: 0.4rem 1.5rem;
+    gap: 0;
+  }
+
+  .top-pill-rss-btn {
+    width: auto;
   }
 }
 
