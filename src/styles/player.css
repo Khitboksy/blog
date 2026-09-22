@@ -1,0 +1,127 @@
+.audio-player {
+  background: var(--crust);
+  border: 1px solid var(--surface0);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 1rem;
+  font-family: "Iosev-Slab";
+}
+.ap-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ap-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.ap-playpause {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: var(--mauve);
+}
+.ap-playpause:hover {
+  color: var(--pink);
+}
+.ap-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.ap-progress-wrap {
+  flex: 1;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.ap-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: var(--surface0);
+  border-radius: 3px;
+}
+.ap-progress-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--mauve);
+  border-radius: 3px;
+  width: 0;
+  pointer-events: none;
+}
+.ap-progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: var(--pink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.ap-progress-wrap:hover .ap-progress-handle {
+  opacity: 1;
+}
+
+.ap-time {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.ap-volume {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+.ap-volume-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+}
+.ap-volume-bar {
+  position: relative;
+  width: 60px;
+  height: 5px;
+  background: var(--surface0);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.ap-volume-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--mauve);
+  border-radius: 3px;
+  width: 100%;
+  pointer-events: none;
+}
+.ap-volume-handle {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 10px;
+  height: 10px;
+  background: var(--pink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}

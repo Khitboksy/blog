@@ -5,8 +5,16 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+
 import '../styles/global.css';
+import '../styles/content.css';
+import '../styles/layout.css';
+import '../styles/player.css';
+import '../styles/tooltip.css';
+
 import TopBar from '../components/TopBar.astro';
+import NavBar from '../components/NavBar.astro';
+
 ---
 
 <!doctype html>
@@ -18,32 +26,11 @@ import TopBar from '../components/TopBar.astro';
     <meta name="description" content={description ?? 'Blog'} />
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Taylor Towers RSS" href="/blog/rss.xml" />
+    <link rel="preload" as="audio" href="/blog/media/audio/purple-hint.mp3" />
   </head>
   <body>
 
-    <div class="nav-bar">
-      <nav>
-        <a href="https://github.com/Khitboksy">
-          <img class="nav-icon" src="/blog/icons/github.svg" width="18" height="18" alt="">
-          Github
-        </a>
-        <a href="/blog/projects/">
-          <img class="nav-icon" src="/blog/icons/projects.svg" width="18" height="18" alt="">
-          Projects
-        </a>
-        <a href="/blog/">
-          <img class="nav-icon always-show" src="/blog/icons/home.svg" width="30" height="30" alt="Home">
-        </a>
-        <a href="/blog/rants/">
-          Rants
-          <img class="nav-icon" src="/blog/icons/rants.svg" width="18" height="18" alt="">
-        </a>
-        <a href="/blog/socials/">
-          Socials
-          <img class="nav-icon" src="/blog/icons/socials.svg" width="18" height="18" alt="">
-        </a>
-      </nav>
-    </div>
+    <NavBar />
 
     <div class="content-box">
       <TopBar />
@@ -54,5 +41,6 @@ import TopBar from '../components/TopBar.astro';
 
     <script is:inline src="/blog/scripts/copy-code.js"></script>
     <script is:inline src="/blog/scripts/tooltip.js"></script>
+    <script is:inline src="/blog/scripts/audio-player.js"></script>
   </body>
 </html>

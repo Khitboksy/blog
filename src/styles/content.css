@@ -1,0 +1,161 @@
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blog-item {
+  margin-block: 0.5rem;
+}
+
+.blog-item-title {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.pin-icon {
+  color: var(--peach);
+  flex-shrink: 0;
+}
+
+.pin-divider {
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  margin: 1rem 0;
+}
+
+.blog-item .title {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.blog-item .title:hover {
+  color: var(--accent-hover);
+}
+
+.blog-item .date {
+  display: block;
+  font-size: 1rem;
+  color: var(--green);
+  font-weight: bold;
+  margin-top: 0.1em;
+  text-align: center;
+}
+
+.post-content {
+  margin-top: 1rem;
+}
+
+.post-content h2,
+.post-content h3 {
+  color: var(--green);
+}
+.post-content h4 {
+  color: var(--peach);
+}
+
+.post-content p {
+}
+
+.post-content pre {
+  text-align: left;
+  font-family: "Iosev-Slab";
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.post-content code {
+  font-family: "Iosev-Term";
+  font-size: 0.9rem;
+}
+
+.post-content img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.post-content blockquote {
+  border-left: 3px solid var(--mauve);
+  background: var(--bg-quote);
+  color: var(--muted);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+.post-content blockquote p {
+  margin-bottom: 0;
+}
+
+.post-content ul,
+.post-content ol,
+.post-content li {
+}
+
+.post-header {
+  margin-bottom: 1.5rem;
+}
+
+.post-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.post-date {
+  font-size: 1.1rem;
+  color: var(--green);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Iosev-Slab";
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.3rem;
+  background: var(--bg-nav);
+  color: var(--blue);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  line-height: 1;
+}
+.copy-btn img {
+  display: block;
+}
+.post-content pre:hover .copy-btn {
+  opacity: 1;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-footer);
+  font-size: 0.85rem;
+}
