@@ -26,7 +26,7 @@ import NavBar from '../components/NavBar.astro';
     <meta name="description" content={description ?? 'Blog'} />
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Taylor Towers RSS" href="/blog/rss.xml" />
-    <link rel="preload" as="audio" href="/blog/media/audio/purple-hint.mp3" />
+    <link rel="preload" as="audio" type="audio/opus" href="/blog/media/audio/purple-hint.opus" />
   </head>
   <body>
 
@@ -42,5 +42,9 @@ import NavBar from '../components/NavBar.astro';
     <script is:inline src="/blog/scripts/copy-code.js"></script>
     <script is:inline src="/blog/scripts/tooltip.js"></script>
     <script is:inline src="/blog/scripts/audio-player.js"></script>
+    <script is:inline>
+      document.querySelectorAll('.post-content a')
+        .forEach(a => a.target = '_blank');
+    </script>
   </body>
 </html>
