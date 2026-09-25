@@ -1,13 +1,3 @@
-/**
- * Audio Player - Full bar.
- * Finds all <div class="audio-player"> elements and builds the player UI inside.
- *
- * Usage in markdown:
- *   <div class="audio-player"
- *        data-src="/blog/media/audio/track.mp3"
- *        data-label="Artist | Album -- Track">
- *   </div>
- */
 (function () {
   function fmt(s) {
     if (!isFinite(s)) return "0:00";
@@ -22,19 +12,35 @@
     root.dataset.initialised = "true";
 
     const src = root.getAttribute("data-src") || "";
+    const cover = root.getAttribute("data-cover") || "";
     const label = root.getAttribute("data-label") || "";
+    const defaultVolume = parseFloat(root.getAttribute("data-volume")) || 0.75;
     root.innerHTML = "";
+
+    // ---- Album art (optional) ----
+    if (cover) {
+      const art = document.createElement("img");
+      art.className = "ap-cover";
+      art.src = cover;
+      art.alt = "";
+      root.appendChild(art);
+    }
+
+    // ---- Content area (label + controls) ----
+    const content = document.createElement("div");
+    content.className = "ap-content";
+    root.appendChild(content);
 
     // ---- Label ----
     const lbl = document.createElement("div");
     lbl.className = "ap-label";
     lbl.textContent = label;
-    root.appendChild(lbl);
+    content.appendChild(lbl);
 
     // ---- Controls row ----
     const row = document.createElement("div");
     row.className = "ap-controls";
-    root.appendChild(row);
+    content.appendChild(row);
 
     // Play / pause
     const playBtn = document.createElement("button");
@@ -154,9 +160,9 @@
     });
 
     // ---- Volume ----
-    let volume = 1;
+    let volume = defaultVolume;
     audio.volume = volume;
-    volFilled.style.width = "100%";
+    volFilled.style.width = volume * 100 + "%";
 
     let volDragging = false;
     function volFrom(e) {
