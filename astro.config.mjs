@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://khitboksy.github.io',
   base: '/blog',
+  server: { host: true },
   trailingSlash: 'always',
   markdown: {
     shikiConfig: {
