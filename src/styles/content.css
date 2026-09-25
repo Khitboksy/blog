@@ -55,9 +55,18 @@
   margin-top: 1rem;
 }
 
-.post-content h2,
-.post-content h3 {
+.post-content h2 {
   color: var(--green);
+}
+.post-content h3 {
+  color: var(--sapphire);
+  padding-left: 1.5rem;
+  position: relative;
+}
+.post-content h3::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
 }
 .post-content h4 {
   color: var(--peach);
