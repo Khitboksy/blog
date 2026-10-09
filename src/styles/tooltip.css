@@ -66,8 +66,13 @@
 .tooltip-media-popup.visible {
   display: flex;
 }
-.tooltip-media-popup:not(:has(.tm-cover)) {
-  flex-direction: column;
+/* No-cover popups keep the same row layout as covered ones.
+   Dedicated variants for no-cover / no-label can be added here later. */
+
+/* Compact variant (no cover + no label): tighter box, same player.
+   Bump min-width if scrubbing gets too cramped. */
+.tooltip-media-popup.tm-compact {
+  min-width: 240px;
 }
 
 .tm-cover {
@@ -118,7 +123,10 @@
 }
 
 .tm-progress-wrap {
-  width: 100%;
+  /* Trimmed from 100% so the track doesn't sprawl edge-to-edge;
+     auto side margins (global reset) center it in the content column.
+     Audio minibars only — image popups have no .tm-progress-wrap. */
+  width: 85%;
   height: 18px;
   display: flex;
   align-items: center;

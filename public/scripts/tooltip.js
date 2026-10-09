@@ -156,6 +156,11 @@
   function buildMinibar(popup, src, shortLabel, cover) {
     popup.innerHTML = "";
 
+    // Compact variant: nothing to fill the box (no cover, no label),
+    // so relax the min-width instead of showing an empty shell.
+    if (!cover && !shortLabel) popup.classList.add("tm-compact");
+    else popup.classList.remove("tm-compact");
+
     // Album art (optional)
     if (cover) {
       const art = document.createElement("img");
@@ -170,11 +175,13 @@
     content.className = "tm-content";
     popup.appendChild(content);
 
-    // Label
-    const lbl = document.createElement("div");
-    lbl.className = "tm-label";
-    lbl.textContent = shortLabel || "";
-    content.appendChild(lbl);
+    // Label (skip entirely when intentionally empty)
+    if (shortLabel) {
+      const lbl = document.createElement("div");
+      lbl.className = "tm-label";
+      lbl.textContent = shortLabel;
+      content.appendChild(lbl);
+    }
 
     // Controls row: play + time + volume
     const row = document.createElement("div");
