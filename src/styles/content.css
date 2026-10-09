@@ -95,20 +95,6 @@
   border-radius: 4px;
 }
 
-.post-content blockquote {
-  border-left: 3px solid var(--mauve);
-  background: var(--bg-quote);
-  color: var(--muted);
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0 6px 6px 0;
-  font-size: 0.95rem;
-  font-style: italic;
-}
-.post-content blockquote p {
-  margin-bottom: 0;
-}
-
 .post-content ul,
 .post-content ol,
 .post-content li {

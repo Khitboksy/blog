@@ -1,0 +1,135 @@
+.post-content blockquote {
+  border-left: 3px solid var(--mauve);
+  background: var(--bg-quote);
+  color: var(--muted);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+.post-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* Collapsible quotebox
+   Usage:
+     <details class="qb">
+     <summary data-label="Label shown on the bar"></summary>
+
+     > quoted markdown goes here
+
+     </details>
+   (blank lines around the quote are required so markdown is parsed) */
+.post-content details.qb {
+  border-left: 3px solid var(--mauve);
+  background: var(--bg-quote);
+  color: var(--muted);
+  padding: 0.5rem 1rem;
+  /* the global `* { margin: 0 auto }` reset centers shrink-wrapped
+     boxes — pin this one to the left, and hang it into the gutter */
+  margin: 0 0 1rem -1rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+  font-style: italic;
+  width: fit-content;
+}
+
+.post-content details.qb > summary {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  list-style: none;
+  font-style: normal;
+  /* padding + matching negative margin: the hover strip gets breathing
+     room without moving the text */
+  padding: 0.15rem 0.4rem;
+  margin: -0.15rem -0.4rem;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.post-content details.qb > summary:hover {
+  background: var(--bg-surface);
+}
+
+/* after a click-close, keep the hover strip hidden until the pointer
+   re-enters the bar (see public/scripts/quote-dropdown.js);
+   scoped to :not([open]) so the header color survives the close
+   animation and only the hover is suppressed once actually closed */
+.post-content details.qb:not([open]) > summary.qb-lock:hover {
+  background: transparent;
+}
+
+/* Safari: strip the default disclosure marker */
+.post-content details.qb > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* label: reads as a link, not as quoted prose */
+.post-content details.qb > summary::before {
+  content: attr(data-label);
+  color: var(--link);
+  font-weight: 700;
+}
+
+/* plain chevron, sized up, leading the label — a pseudo-element of
+   summary, so the whole bar stays a single click target */
+.post-content details.qb > summary::after {
+  content: "\25B8"; /* ▸ */
+  order: -1;
+  margin-left: -0.5rem;
+  color: var(--mauve);
+  font-size: 1.2rem;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.post-content details.qb[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+.post-content details.qb > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.post-content details.qb[open] > summary {
+  margin-bottom: 0.5rem;
+  /* open state keeps the "hovered" color as a permanent header */
+  background: var(--bg-surface);
+}
+
+/* JS wraps non-summary content in .qb-body (see quote-dropdown.js)
+   so its height can be transitioned on expand/collapse */
+.post-content details.qb > .qb-body {
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+/* The nested quote becomes the body of the box: strip its own
+   border/background so the wrapper reads as one continuous quoteblock */
+.post-content details.qb blockquote {
+  border-left: none;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+}
+
+/* Print: reveal collapsed content */
+@media print {
+  .post-content details.qb::details-content {
+    content-visibility: visible;
+  }
+  .post-content details.qb > *:not(summary) {
+    display: block;
+  }
+  .post-content details.qb > summary::after {
+    content: none;
+  }
+}
