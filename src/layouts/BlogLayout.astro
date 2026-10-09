@@ -11,6 +11,7 @@ import '../styles/content.css';
 import '../styles/layout.css';
 import '../styles/player.css';
 import '../styles/tooltip.css';
+import '../styles/blockquote.css';
 
 import TopBar from '../components/TopBar.astro';
 import NavBar from '../components/NavBar.astro';
@@ -42,6 +43,7 @@ import NavBar from '../components/NavBar.astro';
     <script is:inline src="/blog/scripts/copy-code.js"></script>
     <script is:inline src="/blog/scripts/tooltip.js"></script>
     <script is:inline src="/blog/scripts/audio-player.js"></script>
+    <script is:inline src="/blog/scripts/quote-dropdown.js"></script>
     <script is:inline>
       document.querySelectorAll('.post-content a')
         .forEach(a => a.target = '_blank');
