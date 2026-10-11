@@ -1,0 +1,315 @@
+#!/usr/bin/env bash
+# devctl — background dev-server manager for this repo.
+#
+# Normally started by .envrc when the direnv env loads:
+#   devctl start --shell <pid-of-calling-shell>
+# A watchdog then stops the server when the direnv env unloads — i.e. the
+# shell's cwd leaves the repo, or the shell process disappears.
+#
+# Commands:
+#   start [--shell PID]  spawn the server (singleton; no-op if alive)
+#   status               running/stopped, pid, urls, watchdog
+#   logs [args...]       follow the server log (tail -f, extra args passed through)
+#   kill                 stop watchdog + server
+#   restart              kill, then start again
+
+set -u
+
+DEVCTL="$(readlink -f "${BASH_SOURCE[0]}")"
+ROOT="$(cd -- "$(dirname -- "$DEVCTL")/.." && pwd -P)"
+STATE="$ROOT/.direnv/dev-server"
+LOG="$STATE/server.log"
+PIDF="$STATE/server.pid"
+WF="$STATE/watchdog.pid"
+WFT="$STATE/watchdog.target"
+LOCK="$STATE/start.lock"
+STATUS_LOG="$STATE/status.log"
+READY_TIMEOUT=60
+
+mkdir -p "$STATE"
+
+# Close inherited extra fds. direnv's env-dump pipe lives on one of them;
+# if a long-lived child (server, watchdog) inherits it, direnv exec/load
+# blocks forever waiting for EOF. bash's script fd (255) and fd 9 (flock,
+# opened later) must survive.
+for fd in /proc/self/fd/*; do
+  n="${fd##*/}"
+  case "$n" in 0 | 1 | 2 | 9 | 255) continue ;; esac
+  eval "exec ${n}>&-" 2>/dev/null || true
+done
+
+# Colors when stderr is a terminal; plain otherwise (logs stay clean).
+if [ -t 2 ]; then
+  C_CYAN=$'\033[36m'
+  C_GREEN=$'\033[32m'
+  C_BLUE=$'\033[34m'
+  C_YELLOW=$'\033[33m'
+  C_RED=$'\033[31m'
+  C_DIM=$'\033[2m'
+  C_OFF=$'\033[0m'
+else
+  C_CYAN=''
+  C_GREEN=''
+  C_BLUE=''
+  C_YELLOW=''
+  C_RED=''
+  C_DIM=''
+  C_OFF=''
+fi
+
+say() { # say <color> <message>  — stderr + status log (log copy ANSI-free)
+  printf '%s%s%s\n' "$1" "$2" "$C_OFF" >&2
+  printf '%s %s\n' "$(date +%H:%M:%S)" \
+    "$(printf '%s' "$2" | sed $'s/\033\\[[0-9;]*[a-zA-Z]//g')" >> "$STATUS_LOG"
+}
+
+alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
+server_pid() { [ -f "$PIDF" ] && cat "$PIDF" 2>/dev/null || true; }
+
+under_root() { # under_root <path> — path inside $ROOT?
+  case "$1" in "$ROOT" | "$ROOT"/*) return 0 ;; *) return 1 ;; esac
+}
+
+stop_server() {
+  local pid i
+  pid="$(server_pid)"
+  if alive "$pid"; then
+    kill -TERM -- "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+      alive "$pid" || break
+      sleep 0.2
+    done
+    if alive "$pid"; then
+      kill -KILL -- "-$pid" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
+    fi
+    say "$C_DIM" "dev server stopped"
+  fi
+  rm -f "$PIDF"
+  return 0
+}
+
+watchdog_loop() {
+  # direnv has no unload hook: watch the shell that loaded us. When its
+  # cwd leaves the repo (direnv unloads) or the process is gone (shell
+  # exited), the environment is gone — take the server with it.
+  local shell_pid="$1" cwd
+  while :; do
+    [ -d "/proc/$shell_pid" ] || break
+    cwd="$(readlink -f "/proc/$shell_pid/cwd" 2>/dev/null)" || break
+    under_root "$cwd" || break
+    sleep 1
+  done
+  stop_server
+  rm -f "$WF" "$WFT"
+  return 0
+}
+
+wait_for_ready() {
+  # wait_for_ready <start_line> — block until the server announces itself in
+  # the log (astro prints "ready in …" + the URL block), then print those
+  # URLs inline as load output. Timeout is a warning, not a failure — the
+  # server may still be booting when we give up waiting.
+  local start_line="$1" n=$((READY_TIMEOUT * 2)) new msg local_url net_urls first u
+  while [ "$n" -gt 0 ]; do
+    n=$((n - 1))
+    sleep 0.5
+    alive "$(server_pid)" || {
+      say "$C_RED" "dev server exited before becoming ready"
+      return 1
+    }
+    new="$(tail -n "+$((start_line + 1))" "$LOG" 2>/dev/null)" || continue
+    printf '%s' "$new" | grep -qE 'ready in|Local:' || continue
+    # strip ANSI first — without it the URL grep swallows color codes
+    local_url="$(
+      printf '%s' "$new" | sed $'s/\033\\[[0-9;]*[a-zA-Z]//g' |
+        grep -oE 'https?://[^[:space:]]+' | grep localhost | head -1 || true
+    )"
+    net_urls="$(
+      printf '%s' "$new" | sed $'s/\033\\[[0-9;]*[a-zA-Z]//g' |
+        grep -oE 'https?://[^[:space:]]+' | grep -v localhost | awk '!seen[$0]++' || true
+    )"
+    # astro-style stacked URLs: localhost under "Local", the rest under
+    # "Network", continuations aligned to the same column. Blue labels,
+    # green URLs.
+    if [ -z "$local_url$net_urls" ]; then
+      msg="${C_BLUE}dev server started${C_OFF}"
+    else
+      msg="${C_BLUE}dev server ready:${C_OFF}"
+      [ -n "$local_url" ] && msg+=$'\n\n'"  ${C_BLUE}Local    ${C_GREEN}${local_url}${C_OFF}"
+      if [ -n "$net_urls" ]; then
+        [ -n "$local_url" ] && msg+=$'\n' || msg+=$'\n\n'
+        first=1
+        while IFS= read -r u; do
+          [ -z "$u" ] && continue
+          if [ "$first" -eq 1 ]; then
+            msg+="  ${C_BLUE}Network  ${C_GREEN}${u}${C_OFF}"
+            first=0
+          else
+            msg+=$'\n'"           ${C_GREEN}${u}${C_OFF}"
+          fi
+        done <<<"$net_urls"
+      fi
+    fi
+    say "" "$msg"
+    return 0
+  done
+  say "$C_YELLOW" "dev server not ready after ${READY_TIMEOUT}s — check devctl logs"
+  return 1
+}
+
+arm_watchdog() {
+  # arm_watchdog <shell-pid> — replace any watchdog with one watching this shell
+  local shell_pid="$1" old target i
+  if [ -z "$shell_pid" ] || [ ! -d "/proc/$shell_pid" ]; then
+    say "$C_YELLOW" "watchdog: no valid shell pid — server runs until 'devctl kill'"
+    return 0
+  fi
+  local cwd
+  cwd="$(readlink -f "/proc/$shell_pid/cwd" 2>/dev/null || echo "")"
+  if ! under_root "$cwd"; then
+    say "$C_YELLOW" "watchdog: shell not inside repo — server runs until 'devctl kill'"
+    return 0
+  fi
+  if [ -f "$WF" ]; then
+    old="$(cat "$WF" 2>/dev/null || echo "")"
+    target="$(cat "$WFT" 2>/dev/null || echo "")"
+    if alive "$old" && [ "$target" = "$shell_pid" ]; then
+      return 0 # already watching this shell
+    fi
+    [ -n "$old" ] && kill "$old" 2>/dev/null || true
+    rm -f "$WF" "$WFT"
+  fi
+  setsid --fork bash "$DEVCTL" --watchdog "$shell_pid" >>"$STATE/watchdog.log" 2>&1 9>&-
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    [ -s "$WF" ] && break
+    sleep 0.1
+  done
+  return 0
+}
+
+cmd_start() {
+  local shell_pid="" pid i lines
+  if [ "${1:-}" = "--shell" ]; then shell_pid="${2:-}"; fi
+
+  if ! command -v bun >/dev/null 2>&1; then
+    say "$C_RED" "bun not found — run inside the direnv env (use flake)"
+    return 1
+  fi
+
+  exec 9>"$LOCK"
+  flock -n 9 || {
+    say "$C_YELLOW" "start already in progress"
+    return 1
+  }
+
+  pid="$(server_pid)"
+  if alive "$pid"; then
+    say "$C_BLUE" "dev server already running (pid $pid)"
+    [ -n "$shell_pid" ] && arm_watchdog "$shell_pid"
+    return 0
+  fi
+  [ -n "$pid" ] && rm -f "$PIDF" # stale pid file from a crash
+
+  lines=0
+  if [ -f "$LOG" ]; then lines="$(wc -l <"$LOG" 2>/dev/null || echo 0)"; fi
+
+  # New session (setsid) so terminal signals (Ctrl+C, closing the window)
+  # can't touch the server; bash -c writes its own pid (= session/pgid
+  # leader) before exec, so `kill -- -<pid>` reaps the whole tree.
+  # `9>&-` closes the lock fd so the server doesn't hold flock forever.
+  (
+    exec 9>&-
+    cd "$ROOT" && FORCE_COLOR=1 setsid --fork bash -c '
+      echo $$ > "$1"
+      exec bun run dev
+    ' devctl-start "$PIDF" >>"$LOG" 2>&1 </dev/null
+  )
+
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
+    [ -s "$PIDF" ] && break
+    sleep 0.1
+  done
+  pid="$(server_pid)"
+  if ! alive "$pid"; then
+    say "$C_RED" "dev server failed to start — devctl logs"
+    return 1
+  fi
+
+  say "$C_CYAN" "starting astro dev server..."
+  # arm the watchdog before blocking — an interrupted load (Ctrl+C) leaves
+  # the detached server properly supervised
+  [ -n "$shell_pid" ] && arm_watchdog "$shell_pid"
+  wait_for_ready "$lines" || true
+  return 0
+}
+
+cmd_status() {
+  local pid urls wf wft last
+  # read the log BEFORE say() appends this command's own lines to it
+  last="$(tail -1 "$STATUS_LOG" 2>/dev/null || echo "")"
+  pid="$(server_pid)"
+  if alive "$pid"; then
+    say "$C_GREEN" "dev server running (pid $pid)"
+    urls="$(sed $'s/\033\\[[0-9;]*[a-zA-Z]//g' "$LOG" 2>/dev/null | grep -oE 'https?://[^[:space:]]+' | tail -4 | tr '\n' ' ')"
+    [ -n "$urls" ] && say "$C_DIM" "${urls% }"
+  else
+    say "$C_RED" "dev server not running"
+  fi
+  wf="$(cat "$WF" 2>/dev/null || echo "")"
+  wft="$(cat "$WFT" 2>/dev/null || echo "")"
+  if alive "$wf"; then
+    say "$C_DIM" "watchdog active (watching shell $wft)"
+  else
+    say "$C_DIM" "watchdog inactive"
+  fi
+  if [ -n "$last" ]; then
+    say "$C_DIM" "last: $last"
+  fi
+  return 0
+}
+
+cmd_logs() {
+  if [ ! -f "$LOG" ]; then
+    say "$C_YELLOW" "no log yet — server never started"
+    return 1
+  fi
+  exec tail "$@" -f "$LOG"
+}
+
+cmd_kill() {
+  local wf
+  wf="$(cat "$WF" 2>/dev/null || echo "")"
+  if alive "$wf"; then kill "$wf" 2>/dev/null || true; fi
+  rm -f "$WF" "$WFT"
+  stop_server
+  return 0
+}
+
+cmd_restart() {
+  cmd_kill
+  cmd_start "$@"
+}
+
+if [ "${1:-}" = "--watchdog" ]; then
+  # Internal entry: detached by arm_watchdog. (Can't `exec` a function.)
+  shift
+  spid="${1:?watchdog needs a shell pid}"
+  echo $$ >"$WF"
+  echo "$spid" >"$WFT"
+  watchdog_loop "$spid"
+  exit $?
+fi
+
+cmd="${1:-status}"
+shift || true
+case "$cmd" in
+start) cmd_start "$@" ;;
+status) cmd_status "$@" ;;
+logs) cmd_logs "$@" ;;
+kill) cmd_kill "$@" ;;
+restart) cmd_restart "$@" ;;
+*)
+  printf 'usage: devctl {start [--shell PID]|status|logs [tail args]|kill|restart}\n' >&2
+  exit 2
+  ;;
+esac
