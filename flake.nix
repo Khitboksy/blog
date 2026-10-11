@@ -28,9 +28,11 @@
 
             shellHook = ''
               echo "blog devshell"
-              echo "  bun:  $(bun --version)"
-              echo "  node: $(node --version)"
-              echo "bun run dev : server"
+              echo "  bun:   $(bun --version)"
+              echo "  node:  $(node --version)"
+              astro_v="$(grep -m1 -oE '"astro@[0-9]+\.[0-9]+\.[0-9]+' bun.lock 2>/dev/null | cut -d@ -f2)"
+              [ -n "$astro_v" ] || astro_v='?'
+              echo "  astro: $astro_v"
 
             '';
           };
