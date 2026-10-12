@@ -156,10 +156,13 @@
   function buildMinibar(popup, src, shortLabel, cover) {
     popup.innerHTML = "";
 
-    // Compact variant: nothing to fill the box (no cover, no label),
-    // so relax the min-width instead of showing an empty shell.
-    if (!cover && !shortLabel) popup.classList.add("tm-compact");
-    else popup.classList.remove("tm-compact");
+    // Variant classes: how the shell sizes itself when pieces are missing.
+    //   tm-compact    = no cover, no label -> tight fixed box
+    //   tm-label-only = label, no cover    -> box hugs the title (centered)
+    //   tm-cover-only = cover, no label    -> player sits beside the art
+    popup.classList.toggle("tm-compact", !cover && !shortLabel);
+    popup.classList.toggle("tm-label-only", !cover && !!shortLabel);
+    popup.classList.toggle("tm-cover-only", !!cover && !shortLabel);
 
     // Album art (optional)
     if (cover) {
@@ -380,6 +383,10 @@
     const popup = document.createElement("div");
     popup.className = "tooltip-media-popup";
     popup.setAttribute("role", "tooltip");
+    // Optional data-variant on the trigger -> extra class on the popup
+    // (used by element-test to hover-compare style candidates)
+    const variant = trigger.getAttribute("data-variant");
+    if (variant) popup.classList.add("tm-variant-" + variant);
     document.body.appendChild(popup);
 
     const state = {
