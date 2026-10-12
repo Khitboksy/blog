@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft && !data.hidden);
 
 const recentProject = posts.find((p) => p.data.category === 'project') ?? null;
 const recentRant = posts.find((p) => p.data.category === 'rant') ?? null;
