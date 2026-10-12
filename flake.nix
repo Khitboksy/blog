@@ -24,6 +24,8 @@
               prettierd
               marksman
               markdownlint-cli2
+              git
+              jujutsu
             ];
 
             shellHook = ''
