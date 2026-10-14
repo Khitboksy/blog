@@ -11,6 +11,10 @@
  *   - Click away     -> unfreeze, hide, stop audio
  *   - Hover popup    -> keeps it open (popup is in the hover zone)
  *   - Audio stops whenever popup hides
+ *
+ * Media is warmed lazily: an IntersectionObserver creates each popup's
+ * <audio> (preload=metadata) / fetches image bytes only once the trigger
+ * nears the viewport. Hover/click also warm on demand as a fallback.
  */
 (function () {
   /* Context tooltips  (.tooltip) - hover only */
@@ -153,7 +157,7 @@
    * Build the minibar DOM inside a popup element.
    * Returns an object with references to the key elements.
    */
-  function buildMinibar(popup, src, shortLabel, cover) {
+  function buildMinibar(popup, shortLabel, cover) {
     popup.innerHTML = "";
 
     // Variant classes: how the shell sizes itself when pieces are missing.
@@ -164,11 +168,11 @@
     popup.classList.toggle("tm-label-only", !cover && !!shortLabel);
     popup.classList.toggle("tm-cover-only", !!cover && !shortLabel);
 
-    // Album art (optional)
+    // Album art (optional) — src is set later via ensureMedia (lazy)
+    let art = null;
     if (cover) {
-      const art = document.createElement("img");
+      art = document.createElement("img");
       art.className = "tm-cover";
-      art.src = cover;
       art.alt = "";
       popup.appendChild(art);
     }
@@ -241,13 +245,9 @@
     progressWrap.appendChild(progressBar);
     content.appendChild(progressWrap);
 
-    // Audio element
-    const audio = document.createElement("audio");
-    audio.preload = "metadata";
-    audio.src = src;
-    popup.appendChild(audio);
-
+    // <audio> is created later via ensureAudio (lazy — see wireMinibar)
     return {
+      art,
       playBtn,
       progressWrap,
       progressBar,
@@ -257,12 +257,12 @@
       volWrap,
       volBar,
       volFilled,
-      audio,
     };
   }
 
-  /** Wire up audio events and interaction for a minibar. */
-  function wireMinibar(refs, popup, defaultVolume) {
+  /** Wire up minibar interaction; the <audio> element itself is created
+      lazily on first need (viewport-approach, hover, or click). */
+  function wireMinibar(state, defaultVolume) {
     const {
       playBtn,
       progressWrap,
@@ -272,18 +272,58 @@
       volWrap,
       volBar,
       volFilled,
-      audio,
-    } = refs;
+    } = state.minibarRefs;
+    const popup = state.popup;
     const iconPlay = playBtn.querySelector(".tm-icon-play");
     const iconPause = playBtn.querySelector(".tm-icon-pause");
     const elapsedEl = time.querySelector(".tm-elapsed");
     const totalEl = time.querySelector(".tm-total");
 
     let loaded = false;
+    let volume = defaultVolume;
+    volFilled.style.width = volume * 100 + "%";
+
+    /** Create the <audio> element + attach its listeners (idempotent). */
+    function ensureAudio() {
+      if (state.audio) return state.audio;
+      const audio = document.createElement("audio");
+      audio.preload = "metadata";
+      audio.src = state.src;
+      audio.volume = volume;
+      popup.appendChild(audio);
+      state.audio = audio;
+
+      audio.addEventListener("play", () => {
+        iconPlay.style.display = "none";
+        iconPause.style.display = "";
+      });
+      audio.addEventListener("pause", () => {
+        iconPlay.style.display = "";
+        iconPause.style.display = "none";
+      });
+      audio.addEventListener("ended", () => {
+        iconPlay.style.display = "";
+        iconPause.style.display = "none";
+      });
+      audio.addEventListener("loadedmetadata", () => {
+        totalEl.textContent = fmt(audio.duration);
+      });
+      audio.addEventListener("timeupdate", () => {
+        const pct = audio.duration
+          ? (audio.currentTime / audio.duration) * 100
+          : 0;
+        progressFilled.style.width = pct + "%";
+        progressHandle.style.left = pct + "%";
+        elapsedEl.textContent = fmt(audio.currentTime);
+      });
+      return audio;
+    }
+    state.ensureAudio = ensureAudio;
 
     // Play / pause toggle
     playBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      const audio = ensureAudio();
       if (!loaded) {
         audio.load();
         loaded = true;
@@ -292,39 +332,17 @@
       else audio.pause();
     });
 
-    audio.addEventListener("play", () => {
-      iconPlay.style.display = "none";
-      iconPause.style.display = "";
-    });
-    audio.addEventListener("pause", () => {
-      iconPlay.style.display = "";
-      iconPause.style.display = "none";
-    });
-    audio.addEventListener("ended", () => {
-      iconPlay.style.display = "";
-      iconPause.style.display = "none";
-    });
-    audio.addEventListener("loadedmetadata", () => {
-      totalEl.textContent = fmt(audio.duration);
-    });
-    audio.addEventListener("timeupdate", () => {
-      const pct = audio.duration
-        ? (audio.currentTime / audio.duration) * 100
-        : 0;
-      progressFilled.style.width = pct + "%";
-      progressHandle.style.left = pct + "%";
-      elapsedEl.textContent = fmt(audio.currentTime);
-    });
-
     // Seek
     let seeking = false;
     function seekFrom(e) {
+      const audio = state.audio;
+      if (!audio || !audio.duration) return;
       const rect = progressWrap.getBoundingClientRect();
       const pct = Math.max(
         0,
         Math.min(1, (e.clientX - rect.left) / rect.width),
       );
-      if (audio.duration) audio.currentTime = pct * audio.duration;
+      audio.currentTime = pct * audio.duration;
     }
     progressWrap.addEventListener("mousedown", (e) => {
       seeking = true;
@@ -340,14 +358,11 @@
 
     // Volume - icon hover/click reveals horizontal bar
     let volDragging = false;
-    let volume = defaultVolume;
-    audio.volume = volume;
-    volFilled.style.width = volume * 100 + "%";
 
     function volFrom(e) {
       const rect = volBar.getBoundingClientRect();
       volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      audio.volume = volume;
+      if (state.audio) state.audio.volume = volume;
       volFilled.style.width = volume * 100 + "%";
     }
 
@@ -370,6 +385,24 @@
       volDragging = false;
     });
   }
+
+  /* Lazy warming: create <audio> / fetch image bytes only when the
+     trigger nears the viewport. Hover/click also warm as a fallback. */
+  const mediaStates = new WeakMap();
+  const mediaObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const ensure = mediaStates.get(entry.target);
+              if (ensure) ensure();
+              mediaObserver.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "200px 0px" },
+        )
+      : null;
 
   /* Create tooltip state for each .tooltip-media */
   document.querySelectorAll(".tooltip-media").forEach((trigger) => {
@@ -398,22 +431,43 @@
       hovering: false,
       closeTimer: null,
       minibarRefs: null,
+      audio: null,
+      ensureAudio: null,
+      img: null,
     };
 
     // Build content based on media type
     if (mediaType === "image") {
+      // Bytes fetched lazily via ensureMedia below
       const img = document.createElement("img");
-      img.src = src;
       img.alt = shortLabel || "";
       popup.appendChild(img);
+      state.img = img;
     } else {
-      state.minibarRefs = buildMinibar(popup, src, shortLabel, cover);
-      wireMinibar(state.minibarRefs, popup, defaultVolume);
+      state.minibarRefs = buildMinibar(popup, shortLabel, cover);
+      wireMinibar(state, defaultVolume);
     }
+
+    /** Warm this trigger's media (idempotent). */
+    state.ensureMedia = () => {
+      if (state.img && !state.img.dataset.loaded) {
+        state.img.src = src;
+        state.img.dataset.loaded = "true";
+      }
+      const art = state.minibarRefs && state.minibarRefs.art;
+      if (art && !art.dataset.loaded) {
+        art.src = cover;
+        art.dataset.loaded = "true";
+      }
+      if (state.ensureAudio) state.ensureAudio();
+    };
+    mediaStates.set(trigger, state.ensureMedia);
+    if (mediaObserver) mediaObserver.observe(trigger);
 
     /* Trigger hover */
     trigger.addEventListener("mouseenter", (e) => {
       cancelClose(state);
+      state.ensureMedia();
       state.hovering = true;
       if (activeMedia && activeMedia !== state) closeMediaTooltip(activeMedia);
       activeMedia = state;
@@ -423,9 +477,9 @@
       popup.offsetHeight;
       positionPopup(trigger, popup, e);
       // Preload if data-autoplay is set (actual play requires a click)
-      if (trigger.hasAttribute("data-autoplay")) {
-        const a = popup.querySelector("audio");
-        if (a && !a.dataset.preloaded) {
+      if (trigger.hasAttribute("data-autoplay") && state.ensureAudio) {
+        const a = state.ensureAudio();
+        if (!a.dataset.preloaded) {
           a.load();
           a.dataset.preloaded = "true";
         }
@@ -462,12 +516,10 @@
         }
         popup.dataset.positioned = "true";
         // Autoplay if data-autoplay is set
-        if (trigger.hasAttribute("data-autoplay")) {
-          const a = popup.querySelector("audio");
-          if (a) {
-            a.load();
-            a.play();
-          }
+        if (trigger.hasAttribute("data-autoplay") && state.ensureAudio) {
+          const a = state.ensureAudio();
+          a.load();
+          a.play();
         }
       }
     });

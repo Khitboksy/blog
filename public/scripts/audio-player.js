@@ -6,6 +6,24 @@
     return m + ":" + String(sec).padStart(2, "0");
   }
 
+  /* Lazy warming: create the <audio> only when the player nears the
+     viewport (or is clicked). One shared observer for all players. */
+  const warmMap = new WeakMap();
+  const playerObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const warm = warmMap.get(entry.target);
+              if (warm) warm();
+              playerObserver.unobserve(entry.target);
+            });
+          },
+          { rootMargin: "200px 0px" },
+        )
+      : null;
+
   document.querySelectorAll(".audio-player").forEach((root) => {
     // Skip if already initialised
     if (root.dataset.initialised) return;
@@ -88,12 +106,6 @@
     volWrap.appendChild(volBar);
     row.appendChild(volWrap);
 
-    // Audio element
-    const audio = document.createElement("audio");
-    audio.preload = "metadata";
-    audio.src = src;
-    root.appendChild(audio);
-
     // ---- References ----
     const iconPlay = playBtn.querySelector(".ap-icon-play");
     const iconPause = playBtn.querySelector(".ap-icon-pause");
@@ -101,52 +113,68 @@
     const totalEl = time.querySelector(".ap-total");
 
     let loaded = false;
+    let volume = defaultVolume;
+    volFilled.style.width = volume * 100 + "%";
+
+    // Audio element — created on first need (viewport-approach or click)
+    let audio = null;
+    function ensureAudio() {
+      if (audio) return audio;
+      audio = document.createElement("audio");
+      audio.preload = "metadata";
+      audio.src = src;
+      audio.volume = volume;
+      root.appendChild(audio);
+
+      audio.addEventListener("play", () => {
+        iconPlay.style.display = "none";
+        iconPause.style.display = "";
+      });
+      audio.addEventListener("pause", () => {
+        iconPlay.style.display = "";
+        iconPause.style.display = "none";
+      });
+      audio.addEventListener("ended", () => {
+        iconPlay.style.display = "";
+        iconPause.style.display = "none";
+      });
+      audio.addEventListener("loadedmetadata", () => {
+        totalEl.textContent = fmt(audio.duration);
+      });
+      audio.addEventListener("timeupdate", () => {
+        const pct = audio.duration
+          ? (audio.currentTime / audio.duration) * 100
+          : 0;
+        progressFilled.style.width = pct + "%";
+        progressHandle.style.left = pct + "%";
+        elapsedEl.textContent = fmt(audio.currentTime);
+      });
+      return audio;
+    }
+    warmMap.set(root, ensureAudio);
+    if (playerObserver) playerObserver.observe(root);
 
     // ---- Play / pause ----
     playBtn.addEventListener("click", () => {
+      const a = ensureAudio();
       if (!loaded) {
-        audio.load();
+        a.load();
         loaded = true;
       }
-      if (audio.paused) audio.play();
-      else audio.pause();
-    });
-
-    audio.addEventListener("play", () => {
-      iconPlay.style.display = "none";
-      iconPause.style.display = "";
-    });
-    audio.addEventListener("pause", () => {
-      iconPlay.style.display = "";
-      iconPause.style.display = "none";
-    });
-    audio.addEventListener("ended", () => {
-      iconPlay.style.display = "";
-      iconPause.style.display = "none";
-    });
-
-    // ---- Time / progress ----
-    audio.addEventListener("loadedmetadata", () => {
-      totalEl.textContent = fmt(audio.duration);
-    });
-    audio.addEventListener("timeupdate", () => {
-      const pct = audio.duration
-        ? (audio.currentTime / audio.duration) * 100
-        : 0;
-      progressFilled.style.width = pct + "%";
-      progressHandle.style.left = pct + "%";
-      elapsedEl.textContent = fmt(audio.currentTime);
+      if (a.paused) a.play();
+      else a.pause();
     });
 
     // ---- Seek ----
     let seeking = false;
     function seekFrom(e) {
+      if (!audio || !audio.duration) return;
       const rect = progressWrap.getBoundingClientRect();
       const pct = Math.max(
         0,
         Math.min(1, (e.clientX - rect.left) / rect.width),
       );
-      if (audio.duration) audio.currentTime = pct * audio.duration;
+      audio.currentTime = pct * audio.duration;
     }
     progressWrap.addEventListener("mousedown", (e) => {
       seeking = true;
@@ -160,15 +188,11 @@
     });
 
     // ---- Volume ----
-    let volume = defaultVolume;
-    audio.volume = volume;
-    volFilled.style.width = volume * 100 + "%";
-
     let volDragging = false;
     function volFrom(e) {
       const rect = volBar.getBoundingClientRect();
       volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      audio.volume = volume;
+      if (audio) audio.volume = volume;
       volFilled.style.width = volume * 100 + "%";
     }
     volBar.addEventListener("mousedown", (e) => {
