@@ -274,7 +274,7 @@ emotional over
 data-src="/blog/media/audio/albums/iftd/04.industry.opus"
 data-cover="/blog/media/audio/albums/covers/iftd-cover.jpg"
 data-short-label="you are an angel -- industry">
-industy</span>, and you just got spoiled on the ending of the album. And youre
+industry</span>, and you just got spoiled on the ending of the album. And youre
 scared.  
 You did that. You escaped. You ran away.
 
