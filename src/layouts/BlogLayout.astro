@@ -2,10 +2,12 @@
 export interface Props {
   title: string;
   description?: string;
+  tags?: string[];
 }
 
-const { title, description } = Astro.props;
+const { title, description, tags = [] } = Astro.props;
 
+import '../styles/fonts.css';
 import '../styles/global.css';
 import '../styles/content.css';
 import '../styles/layout.css';
@@ -16,6 +18,22 @@ import '../styles/blockquote.css';
 import TopBar from '../components/TopBar.astro';
 import NavBar from '../components/NavBar.astro';
 
+const fontBase = '/blog/fonts/iosevka';
+const fontPreloads = [
+  `${fontBase}/core/slab/core-slab-regular.woff2`,
+  `${fontBase}/core/slab/core-slab-bold.woff2`,
+  ...(tags.includes('cr') ? [
+    `${fontBase}/cr/slab/cr-slab-regular.woff2`,
+    `${fontBase}/cr/slab/cr-slab-bold.woff2`,
+  ] : []),
+  ...(tags.includes('gr') ? [
+    `${fontBase}/gr/slab/gr-slab-regular.woff2`,
+  ] : []),
+  ...(tags.includes('code') ? [
+    `${fontBase}/code/slab/code-slab-regular.woff2`,
+    `${fontBase}/code/term/code-term-regular.woff2`,
+  ] : []),
+];
 ---
 
 <!doctype html>
@@ -28,6 +46,9 @@ import NavBar from '../components/NavBar.astro';
     <link rel="icon" type="image/svg+xml" href="/blog/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Taylor Towers RSS" href="/blog/rss.xml" />
     <link rel="preload" as="audio" type="audio/opus" href="/blog/media/audio/purple-hint.opus" />
+    {fontPreloads.map((href) => (
+      <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />
+    ))}
   </head>
   <body>
 
