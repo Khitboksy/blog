@@ -32,7 +32,7 @@
     const src = root.getAttribute("data-src") || "";
     const cover = root.getAttribute("data-cover") || "";
     const label = root.getAttribute("data-label") || "";
-    const defaultVolume = parseFloat(root.getAttribute("data-volume")) || 0.75;
+    const defaultVolume = parseFloat(root.getAttribute("data-volume")) || 0.5;
     root.innerHTML = "";
 
     // ---- Album art (optional) ----
