@@ -7,7 +7,7 @@
   border-radius: 8px;
   padding: 0.6rem 0.85rem;
   margin-bottom: 1rem;
-  font-family: "Iosev-Slab";
+  font-family: var(--font-slab);
 }
 .ap-cover {
   width: 64px;

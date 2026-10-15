@@ -20,7 +20,7 @@
   font-size: 0.85rem;
   font-style: normal;
   font-weight: normal;
-  font-family: "Iosev-Slab";
+  font-family: var(--font-slab);
   background: var(--crust);
   color: var(--rosewater);
   border: 1px solid var(--mauve);
@@ -57,7 +57,7 @@
   min-width: 300px;
   max-width: 360px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-  font-family: "Iosev-Slab";
+  font-family: var(--font-slab);
   pointer-events: auto;
   flex-direction: row;
   align-items: stretch;
