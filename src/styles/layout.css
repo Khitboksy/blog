@@ -22,7 +22,7 @@
 }
 
 .top-pill-btn {
-  font-family: "Iosev-Slab";
+  font-family: var(--font-slab);
   background: none;
   border: none;
   cursor: pointer;
