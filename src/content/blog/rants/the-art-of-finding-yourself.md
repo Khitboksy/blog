@@ -9,9 +9,13 @@ tags:
   - meta
 ---
 
-#### CW: Suicidal Ideation, Self Harm, General Dysphoria.
+<aside class="callout cw" data-label="Content Warning">
 
-#### You have been warned
+Suicidal Ideation, Self Harm, General Dysphoria.
+
+You have been warned.
+
+</aside>
 
 ## Sometimes, you just dont get it
 
@@ -305,9 +309,13 @@ when you dont feel okay. Reach out before you do something stupid to yourself.
 Reach out to your friends. Ask if theyre okay. See how theyre doing. Remind them
 youre a safespace. Open the walls to their problems. Dont let the time go by.
 
-> This post is dedicated to Zoey. The girl who gave me my life. The girl who
-> single handedly taught me how to be a better person, for _myself_.
+<aside class="callout dedication">
 
-> This post is also dedicated to those who may still be soul searching. By no means
-> is this a guide, or whatever. I just hope that whoever reads this, finds solace in
-> story. That someone out there realizes who they are, before its too late.
+This post is dedicated to Zoey. The girl who gave me my life. The girl who
+single handedly taught me how to be a better person, for _myself_.
+
+This post is also dedicated to those who may still be soul searching. By no means
+is this a guide, or whatever. I just hope that whoever reads this, finds solace in
+story. That someone out there realizes who they are, before its too late.
+
+</aside>

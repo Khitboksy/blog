@@ -22,14 +22,14 @@
      </details>
    (blank lines around the quote are required so markdown is parsed) */
 .post-content details.qb {
-  border-left: 3px solid var(--mauve);
+  border-left: 5px solid var(--mauve);
   background: var(--bg-quote);
   color: var(--muted);
   padding: 0.5rem 1rem;
   /* the global `* { margin: 0 auto }` reset centers shrink-wrapped
      boxes — pin this one to the left, and hang it into the gutter */
   margin: 0 0 1rem -1rem;
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
   font-size: 0.95rem;
   font-style: italic;
   width: fit-content;
@@ -132,4 +132,107 @@
   .post-content details.qb > summary::after {
     content: none;
   }
+}
+
+/* Callout — non-collapsible notice box (disclaimers, CWs, dedications, notes).
+   Usage (blank lines around the body are required so markdown parses):
+     <aside class="callout warn" data-label="Disclaimer">
+
+     Body markdown here.
+
+     </aside>
+   Types: cw (red), warn (peach), dedication (pink), note (teal);
+   color="mauve" (or any palette name) overrides bar + label on any type. */
+.post-content .callout {
+  --callout-text: var(--yellow);
+  --callout-bar: var(--accent);
+  border-left: 5px solid var(--callout-bar);
+  background: var(--bg-quote);
+  color: var(--callout-text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.75rem 1rem;
+  margin: 0 -1rem 1.5rem;
+  border-radius: 6px;
+}
+.post-content .callout::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--callout-bar);
+  margin-bottom: 0.35rem;
+}
+/* no data-label = no label row (dedications, etc.) */
+.post-content .callout:not([data-label])::before {
+  content: none;
+}
+.post-content .callout.cw {
+  --callout-bar: var(--red);
+}
+.post-content .callout.warn {
+  --callout-bar: var(--peach);
+}
+.post-content .callout.dedication {
+  --callout-bar: var(--pink);
+  color: var(--pink);
+}
+.post-content .callout.dedication p::before {
+  content: " - ";
+  color: var(--muted);
+}
+.post-content .callout.note {
+  --callout-bar: var(--teal);
+  color: var(--muted);
+}
+/* color="…" override — sits after the type rules so it wins on equal
+   specificity; swaps bar + label, leaves body text alone */
+.post-content .callout[color="mauve"] {
+  --callout-bar: var(--mauve);
+}
+.post-content .callout[color="lavender"] {
+  --callout-bar: var(--lavender);
+}
+.post-content .callout[color="pink"] {
+  --callout-bar: var(--pink);
+}
+.post-content .callout[color="red"] {
+  --callout-bar: var(--red);
+}
+.post-content .callout[color="maroon"] {
+  --callout-bar: var(--maroon);
+}
+.post-content .callout[color="peach"] {
+  --callout-bar: var(--peach);
+}
+.post-content .callout[color="yellow"] {
+  --callout-bar: var(--yellow);
+}
+.post-content .callout[color="green"] {
+  --callout-bar: var(--green);
+}
+.post-content .callout[color="teal"] {
+  --callout-bar: var(--teal);
+}
+.post-content .callout[color="sky"] {
+  --callout-bar: var(--sky);
+}
+.post-content .callout[color="sapphire"] {
+  --callout-bar: var(--sapphire);
+}
+.post-content .callout[color="blue"] {
+  --callout-bar: var(--blue);
+}
+.post-content .callout[color="rosewater"] {
+  --callout-bar: var(--rosewater);
+}
+.post-content .callout[color="flamingo"] {
+  --callout-bar: var(--flamingo);
+}
+.post-content .callout p {
+  margin-bottom: 0.5rem;
+}
+.post-content .callout p:last-child {
+  margin-bottom: 0;
 }

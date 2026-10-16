@@ -55,21 +55,80 @@
   margin-top: 1rem;
 }
 
+/* Headers: unified scale + bar treatments.
+   h1 is a centered flex row: the ::before/::after bars are flex:1 so they
+   stretch to fill the box on either side of the text. h2+ are left-prefixed
+   with increasing ASCII bars (deeper level = longer break). Bars are ASCII
+   hyphens on h2+ on purpose: box-drawing chars live in the `code` font
+   chunk and would fall back to system fonts on pages without it. */
+.post-content :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.post-content h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  color: var(--accent);
+}
+.post-content h1::before,
+.post-content h1::after {
+  content: "";
+  flex: 1;
+  border-top: 2px solid currentColor;
+}
+/* keep the hover # anchor out of the flex flow so the bars stay symmetric */
+.post-content h1 a.heading-anchor {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0;
+}
+
 .post-content h2 {
   color: var(--green);
+  font-size: 1.5rem;
 }
+.post-content h2::before {
+  content: "--- ";
+}
+
 .post-content h3 {
   color: var(--sapphire);
-  padding-left: 1.5rem;
-  position: relative;
+  font-size: 1.25rem;
 }
 .post-content h3::before {
-  content: "\2022";
-  position: absolute;
-  left: 0;
+  content: "------ ";
 }
+
 .post-content h4 {
   color: var(--peach);
+  font-size: 1.1rem;
+}
+.post-content h4::before {
+  content: "--------- ";
+}
+
+.post-content h5 {
+  color: var(--sky);
+  font-size: 1rem;
+}
+.post-content h5::before {
+  content: "------------ ";
+}
+
+.post-content h6 {
+  color: var(--muted);
+  font-size: 1rem;
+}
+.post-content h6::before {
+  content: "--------------- ";
 }
 
 .post-content p {
@@ -90,14 +149,69 @@
   font-size: 0.9rem;
 }
 
+.post-content :not(pre) > code {
+  background: var(--bg-code);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
 .post-content img {
   max-width: 100%;
   border-radius: 4px;
 }
 
+.post-content del {
+  text-decoration-line: line-through;
+  text-decoration-color: var(--mauve);
+  text-decoration-thickness: 2px;
+}
+
 .post-content ul,
-.post-content ol,
+.post-content ol {
+  /* the global `* { padding: 0 }` reset kills the browser's default list
+     indentation — restore it so nested lists actually nest */
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 .post-content li {
+  margin-bottom: 0.25rem;
+}
+
+.post-content li::marker {
+  color: var(--accent);
+}
+
+/* Tables: the global `* { margin: 0 auto }` shrink-wraps and centers them —
+   pin left with an explicit margin, give cells structure */
+.post-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.post-content th,
+.post-content td {
+  border: 1px solid var(--surface0);
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+}
+
+.post-content th {
+  color: var(--accent);
+  background: var(--bg-surface);
+  font-weight: 700;
+}
+
+/* GFM alignment (| :---: | / | ---: |) */
+.post-content th[align="center"],
+.post-content td[align="center"] {
+  text-align: center;
+}
+.post-content th[align="right"],
+.post-content td[align="right"] {
+  text-align: right;
 }
 
 .post-header {
@@ -175,7 +289,9 @@ a.heading-anchor {
   cursor: pointer;
   position: relative;
   vertical-align: middle;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
 }
 
 .post-content :is(h1, h2, h3, h4, h5, h6):hover a.heading-anchor,
