@@ -2,10 +2,10 @@
 export interface Props {
   title: string;
   description?: string;
-  tags?: string[];
+  fonts?: string[];
 }
 
-const { title, description, tags = [] } = Astro.props;
+const { title, description, fonts = [] } = Astro.props;
 
 import '../styles/fonts.css';
 import '../styles/global.css';
@@ -22,14 +22,17 @@ const fontBase = '/blog/fonts/iosevka';
 const fontPreloads = [
   `${fontBase}/core/slab/core-slab-regular.woff2`,
   `${fontBase}/core/slab/core-slab-bold.woff2`,
-  ...(tags.includes('cr') ? [
+  ...(fonts.includes('cr') ? [
     `${fontBase}/cr/slab/cr-slab-regular.woff2`,
     `${fontBase}/cr/slab/cr-slab-bold.woff2`,
   ] : []),
-  ...(tags.includes('gr') ? [
+  ...(fonts.includes('gr') ? [
     `${fontBase}/gr/slab/gr-slab-regular.woff2`,
   ] : []),
-  ...(tags.includes('code') ? [
+  ...(fonts.includes('ipa') ? [
+    `${fontBase}/ipa/slab/ipa-slab-regular.woff2`,
+  ] : []),
+  ...(fonts.includes('code') ? [
     `${fontBase}/code/slab/code-slab-regular.woff2`,
     `${fontBase}/code/term/code-term-regular.woff2`,
   ] : []),
