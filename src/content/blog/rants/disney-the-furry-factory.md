@@ -9,13 +9,15 @@ tags:
   - meta
 ---
 
-#### Disclaimer:
+<aside class="callout warn" data-label="Disclaimer">
 
-#### All audio shared in this post was posted with explicit permission by its creators.
+All audio shared in this post was posted with explicit permission by its creators.
 
-#### If not, id argue this falls under fair use.
+If not, id argue this falls under fair use.
 
-#### All media was obtained fully legally.
+All media was obtained fully legally.
+
+</aside>
 
 ## References
 
@@ -108,7 +110,7 @@ closely to an animal on a _spiritual_ or _psychological_ level. These are your c
 
 This is where it gets juicy, because this is where i have lived for two years atp.
 
-Everywhere i see Anit-Queer rhetoric, its almost always rooted in either ignorance,
+Everywhere i see Anti-Queer rhetoric, its almost always rooted in either ignorance,
 or subjective malice. And i dont mean the usual "transphobes have never met a trans person"
 style rhetoric, i mean viewing something as mundane as all music that seems unique to a
 queer circle like Glass Beach, or Betu, as cringey, or having an wavering disdain for
@@ -544,7 +546,12 @@ Disney lovers who hate furries, but i _certainly_ lost the plot at some point.
 
 I hope you enjoyed the read.
 
-> This post is dedicated to Kylee and her girlfriend. Without you two i never
-> couldve become the person i am today.
->
-> From the bottom of my heart, I love you both. Thank you, for everything.
+<aside class="callout dedication">
+
+This post is dedicated to Kylee and her girlfriend.
+
+Without you two i never couldve become the person i am today.
+
+From the bottom of my heart, I love you both. Thank you, for everything.
+
+</aside>
