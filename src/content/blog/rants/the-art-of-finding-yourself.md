@@ -140,16 +140,9 @@ You felt lost. But, you knew what you had to do. Its time to get better. Not for
 but for yourself. You spent two years changing, and getting better, until eventually she noticed.
 She added you back. She started texting you again. Things are good.
 
-
-
-
-
-
-
-
-
-
-
+One day, she breaks the news to you. "Im trans, btw" she says. That.. that rocked
+you to the core. Yesterday you were arguing trans politics with your conservative
+friends, calling them creeps, and mentally ill. Today, your best friend
 is telling you theyre in that group.
 
 You dont wanna lose your best friend, so you start challenging biases. You start asking
@@ -311,8 +304,8 @@ youre a safespace. Open the walls to their problems. Dont let the time go by.
 
 <aside class="callout dedication">
 
-
-single handedly taught me how to be a better person, for _myself_.
+This post is dedicated to my anonymous best friend. The girl who gave me my life.
+The girl who single handedly taught me how to be a better person, for _myself_.
 
 This post is also dedicated to those who may still be soul searching. By no means
 is this a guide, or whatever. I just hope that whoever reads this, finds solace in
